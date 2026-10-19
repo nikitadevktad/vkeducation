@@ -2,6 +2,7 @@ package com.nikitadevktad.vkeducation.ui.applist
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,12 +31,14 @@ import com.nikitadevktad.vkeducation.data.AppInfo
 @Composable
 fun AppItem(
     appData: AppInfo,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .height(130.dp)
+            .clickable(onClick = onClick)
             .border(
                 width = 1.dp,
                 color = Color.LightGray,
@@ -90,6 +93,7 @@ fun PreviewAppItem() {
             description = "Приложение для создания заметок",
             category = "Производительность",
             iconUrl = "https://picsum.photos/id/237/200/200"
-        )
+        ),
+        onClick = {},
     )
 }
