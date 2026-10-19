@@ -27,6 +27,7 @@ import com.nikitadevktad.vkeducation.data.AppInfo
 @Composable
 fun AppListScreen(
     apps: List<AppInfo>,
+    onAppClick: (AppInfo) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -63,7 +64,7 @@ fun AppListScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(apps) { item ->
-                AppItem(item)
+                AppItem(appData = item, onClick = { onAppClick(item) })
             }
         }
     }

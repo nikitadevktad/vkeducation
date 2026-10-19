@@ -1,5 +1,6 @@
 package com.nikitadevktad.vkeducation.ui.applist
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,7 @@ import com.nikitadevktad.vkeducation.data.AppInfo
 fun AppItem(
     appData: AppInfo,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     Row(
         modifier = modifier
@@ -45,6 +47,7 @@ fun AppItem(
                 color = Color.White,
                 shape = RoundedCornerShape(12.dp)
             )
+            .clickable(onClick = onClick)
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
