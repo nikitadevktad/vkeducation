@@ -1,0 +1,25 @@
+package com.nikitadevktad.vkeducation.domain.appdetails
+
+enum class Category {
+    APP,
+    GAME,
+    PRODUCTIVITY,
+    SOCIAL,
+    EDUCATION,
+    ENTERTAINMENT,
+    MUSIC,
+    VIDEO,
+    PHOTOGRAPHY,
+    HEALTH,
+    HEALTH_AND_SPORTS,
+    SPORTS,
+    NEWS,
+    BOOKS,
+    BUSINESS,
+    FINANCE,
+    TRAVEL,
+    MAPS,
+    FOOD,
+    SHOPPING,
+    UTILITIES,
+}
