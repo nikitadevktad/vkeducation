@@ -4,19 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.nikitadevktad.vkeducation.data.mapper.AppMapper
-import com.nikitadevktad.vkeducation.data.repository.AppRepositoryImpl
-import com.nikitadevktad.vkeducation.data.source.AppLocalDataSource
-import com.nikitadevktad.vkeducation.domain.usecase.GetAppsUseCase
+import dagger.hilt.android.AndroidEntryPoint
 import com.nikitadevktad.vkeducation.presentation.appdetails.AppDetailsScreen
 import com.nikitadevktad.vkeducation.presentation.applist.AppListRoute
 import com.nikitadevktad.vkeducation.presentation.applist.AppListUiState
@@ -27,31 +24,22 @@ private const val AppsRoute = "apps"
 private const val AppIndexArgument = "appIndex"
 private const val DetailsRoute = "details/{$AppIndexArgument}"
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val appListViewModel: AppListViewModel by viewModels {
-        AppListViewModel.factory(
-            GetAppsUseCase(
-                AppRepositoryImpl(
-                    localDataSource = AppLocalDataSource(),
-                    mapper = AppMapper(),
-                ),
-            ),
-        )
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             VkEducationTheme {
-                VkEducationNavHost(appListViewModel)
+                VkEducationNavHost()
             }
         }
     }
 }
 
 @Composable
-private fun VkEducationNavHost(appListViewModel: AppListViewModel) {
+private fun VkEducationNavHost() {
+    val appListViewModel = hiltViewModel<AppListViewModel>()
     val navController = rememberNavController()
     val uiState = appListViewModel.uiState.collectAsStateWithLifecycle().value
     val apps = (uiState as? AppListUiState.Success)?.apps.orEmpty()

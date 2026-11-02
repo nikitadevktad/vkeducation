@@ -1,8 +1,9 @@
 package com.nikitadevktad.vkeducation.data.source
 
+import javax.inject.Inject
 import com.nikitadevktad.vkeducation.data.dto.AppDto
 
-class AppLocalDataSource {
+class AppLocalDataSource @Inject constructor() {
     fun getApps(): List<AppDto> = listOf(
     AppDto(
         name = "QuickNote",

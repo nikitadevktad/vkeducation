@@ -45,7 +45,7 @@ class AppArchitectureTest {
             override fun getApps(): List<App> = listOf(App("Name", "Description", "Category", "url"))
         }
 
-        val state = AppListViewModel(GetAppsUseCase(repository)).uiState.value
+        val state = AppListViewModel(repository).uiState.value
 
         assertTrue(state is AppListUiState.Success)
         assertEquals(1, (state as AppListUiState.Success).apps.size)
