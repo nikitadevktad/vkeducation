@@ -1,4 +1,4 @@
-package com.nikitadevktad.vkeducation.ui.theme
+package com.nikitadevktad.vkeducation.presentation.theme
 
 import android.app.Activity
 import android.os.Build

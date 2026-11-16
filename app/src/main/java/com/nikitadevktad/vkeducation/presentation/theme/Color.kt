@@ -1,4 +1,4 @@
-package com.nikitadevktad.vkeducation.ui.theme
+package com.nikitadevktad.vkeducation.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">vk education</string>
+    <string name="app_details_age">Возраст</string>
+    <string name="app_details_size">Размер</string>
+    <string name="app_details_description">Описание приложения</string>
+    <string name="app_details_read_more">Читать подробнее</string>
+    <string name="install">Установить</string>
+    <string name="app_details_screenshots">Скриншоты</string>
+    <string name="app_details_developer">Разработчик</string>
+    <string name="app_details_similar_apps">Вам может понравиться</string>
+    <string name="app_details_download">Скачать</string>
+    <string name="showcase_title">Витрина</string>
+    <string name="under_development">В процессе разработки</string>
 </resources>
