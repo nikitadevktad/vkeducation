@@ -2,6 +2,7 @@ package com.nikitadevktad.vkeducation.presentation.applist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,6 +13,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -34,6 +37,12 @@ fun AppListRoute(
         AppListUiState.Loading -> Unit
         is AppListUiState.Success -> AppListScreen(
             apps = state.apps,
+            ratings = state.ratings,
+            ratingsLoading = state.ratingsLoading,
+            ratingLoadMode = state.ratingLoadMode,
+            ratingLoadTimeMillis = state.ratingLoadTimeMillis,
+            onLoadSequentially = viewModel::loadRatingsSequentially,
+            onLoadInParallel = viewModel::loadRatingsInParallel,
             onAppClick = onAppClick,
             modifier = modifier,
         )
@@ -45,6 +54,12 @@ fun AppListRoute(
 @Composable
 fun AppListScreen(
     apps: List<App>,
+    ratings: Map<String, Float>,
+    ratingsLoading: Boolean,
+    ratingLoadMode: RatingLoadMode?,
+    ratingLoadTimeMillis: Long?,
+    onLoadSequentially: () -> Unit,
+    onLoadInParallel: () -> Unit,
     onAppClick: (App) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -71,22 +86,49 @@ fun AppListScreen(
         },
         modifier = modifier,
     ) { innerPadding ->
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-            contentPadding = PaddingValues(
-                horizontal = 12.dp,
-                vertical = 8.dp
-            ),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+        Column(
+            modifier = Modifier.fillMaxSize().padding(innerPadding),
         ) {
-            items(apps) { item ->
-                AppItem(
-                    appData = item,
-                    onClick = { onAppClick(item) },
-                )
+            RatingControls(
+                loading = ratingsLoading,
+                mode = ratingLoadMode,
+                elapsedMillis = ratingLoadTimeMillis,
+                onLoadSequentially = onLoadSequentially,
+                onLoadInParallel = onLoadInParallel,
+            )
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                items(apps, key = App::id) { item ->
+                    AppItem(
+                        appData = item,
+                        rating = ratings[item.id],
+                        onClick = { onAppClick(item) },
+                    )
+                }
             }
+        }
+    }
+}
+
+@Composable
+private fun RatingControls(
+    loading: Boolean,
+    mode: RatingLoadMode?,
+    elapsedMillis: Long?,
+    onLoadSequentially: () -> Unit,
+    onLoadInParallel: () -> Unit,
+) {
+    Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)) {
+        androidx.compose.foundation.layout.Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(onClick = onLoadSequentially, enabled = !loading) { Text("Последовательно") }
+            Button(onClick = onLoadInParallel, enabled = !loading) { Text("Параллельно") }
+            if (loading) CircularProgressIndicator(modifier = Modifier.size(24.dp))
+        }
+        if (!loading && mode != null && elapsedMillis != null) {
+            Text("${mode.title}: $elapsedMillis мс")
         }
     }
 }

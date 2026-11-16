@@ -1,6 +1,8 @@
 package com.nikitadevktad.vkeducation.di
 
 import com.nikitadevktad.vkeducation.data.repository.AppRepositoryImpl
+import com.nikitadevktad.vkeducation.data.source.AppApi
+import com.nikitadevktad.vkeducation.data.source.FakeAppApi
 import com.nikitadevktad.vkeducation.domain.repository.AppRepository
 import dagger.Binds
 import dagger.Module
@@ -12,4 +14,7 @@ import dagger.hilt.components.SingletonComponent
 abstract class RepositoryModule {
     @Binds
     abstract fun bindAppRepository(implementation: AppRepositoryImpl): AppRepository
+
+    @Binds
+    abstract fun bindAppApi(implementation: FakeAppApi): AppApi
 }

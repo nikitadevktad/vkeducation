@@ -10,5 +10,6 @@ class AppMapper @Inject constructor() {
         description = dto.description,
         category = dto.category,
         iconUrl = dto.iconUrl,
+        id = dto.id,
     )
 }

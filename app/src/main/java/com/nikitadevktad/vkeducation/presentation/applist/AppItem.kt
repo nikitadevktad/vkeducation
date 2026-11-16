@@ -31,6 +31,7 @@ import com.nikitadevktad.vkeducation.domain.model.App
 @Composable
 fun AppItem(
     appData: App,
+    rating: Float? = null,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -67,6 +68,7 @@ fun AppItem(
                 text = appData.name,
                 fontWeight = FontWeight.Bold
             )
+            rating?.let { Text(text = "★ %.1f".format(it)) }
 
             Text(
                 text = appData.category,

@@ -5,4 +5,5 @@ data class AppDto(
     val description: String,
     val category: String,
     val iconUrl: String,
+    val id: String = "",
 )
